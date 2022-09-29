@@ -58,6 +58,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+# -m => Passing the -m option will forgo the text editor prompt in-favor of an inline message.
+# -u => Branch test set up to track remote branch test from origin.
+# -M => Not know
+
 ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
