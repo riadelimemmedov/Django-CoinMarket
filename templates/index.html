@@ -21,8 +21,32 @@
     
     <div class="container">
         <div class="row">
-            <div class="col-6 mx-auto mt-5">
-                <h3>{{text}}</h3>
+            <div class="col-8 mx-auto mt-5">
+                <h3 class="mb-5">Cryptocurrencies</h3>
+                <table class="table table-hover"> 
+                    <thead>
+                        <tr>
+                            <th scope="col">Order</th>
+                            <th scope="col">Rank</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for coin in coins %}
+                            <tr>
+                                <td class="align-middle">{{coin.market_cap_rank}}</td>
+                                <td class="align-middle">
+                                    <img src="{{coin.image}}" class="px-2" width="50" alt="not found image">
+                                    {{coin.name}}
+                                    <small class="text-muted px-2">{{coin.symbol}}</small>
+                                </td>
+                                <td class="align-middle">{{coin.market_cap_rank}}</td>
+                                <td class="align-middle">{{coin.current_price}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
