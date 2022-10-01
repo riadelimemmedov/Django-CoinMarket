@@ -14,7 +14,10 @@ app.conf.update(timezone='Asia/Baku')
 app.config_from_object(settings, namespace='CELERY')
 
 app.conf.beat_schedule = {
-    
+    'get_coins_data_30s':{
+        'task':'get_coins_data',
+        'schedule':5.0
+    }
 }
 
 app.autodiscover_tasks()

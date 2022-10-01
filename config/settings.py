@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -21,10 +22,10 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '=p()tcy-!8d5^c1g28@27-p5_ibbsl9=#crwn3gpaa((190uh4'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG',default=True,cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -43,7 +44,7 @@ INSTALLED_APPS = [
     'coin',
     
     #third party libraries
-    # 'channels',
+    'channels',
     'django_celery_beat',#This extension enables you to store the periodic task schedule in the database, Defined Name At Admin Panel => Periodic Tasks
     'django_celery_results',#This extension enables you to store Celery task results using the Django ORM.This extension logging celery tasks and after saved all data in database
 ]
@@ -58,10 +59,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
-# -m => Passing the -m option will forgo the text editor prompt in-favor of an inline message.
-# -u => Branch test set up to track remote branch test from origin.
-# -M => Not know
 
 ROOT_URLCONF = 'config.urls'
 
@@ -82,6 +79,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
+ASGI_APPLICATION = 'config.asgi.application'
 
 
 # Database

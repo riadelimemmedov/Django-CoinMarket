@@ -22,34 +22,65 @@
     <div class="container">
         <div class="row">
             <div class="col-8 mx-auto mt-5">
-                <h3 class="mb-5">Cryptocurrencies</h3>
-                <table class="table table-hover"> 
-                    <thead>
-                        <tr>
-                            <th scope="col">Order</th>
-                            <th scope="col">Rank</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for coin in coins %}
-                            <tr>
-                                <td class="align-middle">{{coin.market_cap_rank}}</td>
-                                <td class="align-middle">
-                                    <img src="{{coin.image}}" class="px-2" width="50" alt="not found image">
-                                    {{coin.name}}
-                                    <small class="text-muted px-2">{{coin.symbol}}</small>
-                                </td>
-                                <td class="align-middle">{{coin.market_cap_rank}}</td>
-                                <td class="align-middle">{{coin.current_price}}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                <span class="mb-5 shadow h3 p-3 border rounded text-secondary">Cryptocurrencies</span><br><br><br>
+
+
+                {% verbatim %} <!-- tag is used,Stop Execution Django Code,Only render page -->
+                    <!-- !Vue Mounted Tag -->
+                    <div id="app">
+                        <table class="table table-hover"> 
+                            <thead>
+                                <tr>
+                                    <th scope="col">Rank</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <tr v-for="coin in coins" :key="coin.id">
+                                        <td class="align-middle">{{coin.rank}}</td>
+                                        <td class="align-middle">
+                                            <img :src="coin.image" class="px-2" width="50" alt="not found image">
+                                            {{coin.name}}
+                                            <small class="text-muted px-2">{{coin.symbol}}</small>
+                                        </td>
+                                        {{coin.state}}
+                                        <td class="align-middle text-muted fw-bold" :class="{'raise':coin.state==='raise','fall':coin.state==='fall'}">{{coin.price}}</td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                {% endverbatim %}
+
+            </div>s
         </div>
     </div>
+
+    <script>
+        const { createApp } = Vue
+        
+        const CoinsApp = {
+            data(){
+                return{
+                    coin:'Dummies Coin',
+                    coins:null
+                }
+            },
+            created(){//when working start browser,created hook immetdialy working and render vue object to html
+                const socket = new WebSocket("ws://" + window.location.host + "/")
+                console.log('Socket ', socket)
+                let self = this
+                socket.onmessage = function(e){
+                    console.log('Coin Value')
+                    self.coins = JSON.parse(e.data)
+                    console.log('Coins... ', self.coins)
+                }
+            }
+            //delimiters: ['[[', ']]'], => used vue variable at django template
+        }
+        createApp(CoinsApp).mount('#app')
+    </script>
+
 
 </body>
 </html>
